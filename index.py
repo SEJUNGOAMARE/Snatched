@@ -4,7 +4,6 @@ import pygame_menu
 from pygame import mixer
 from pygame.locals import *
 import sys 
-import winsound
 
 
 # Initialization
@@ -19,9 +18,9 @@ pygame.init()
 os.environ['SDL_VIDEO_CENTERED'] = '1'
  
 # Game Resolution
-screen_width=800
-screen_height=600
-screen=pygame.display.set_mode((screen_width, screen_height))
+width=800
+height=600
+screen=pygame.display.set_mode((width, height))
  
 # Text Renderer
 def text_format(message, textFont, textSize, textColor):
@@ -62,8 +61,21 @@ FPS=60
 
 
 def game():
-    print("hi")
+    while True:
+        clock.tick(FPS)
+        pygame.display.set_caption("Snatched")
 
+
+def fade(): 
+    global width, height
+    fade = pygame.Surface((width,height))
+    fade.fill((0,0,0))
+    for alpha in range(0, 300):
+        fade.set_alpha(alpha)
+        screen.blit(fade, (0,0))
+        pygame.display.update()
+        pygame.time.delay(6)
+        game()
 
 
 # Main Menu
@@ -85,10 +97,11 @@ def main_menu():
                     mixer.Sound.play(menukeys)
                     selected="quit"
                 if event.key==pygame.K_RETURN:
+                    #Starts the game
                     mixer.Sound.play(menukeys)
                     if selected=="start":
+                        fade()
 
-                        game()
                     if selected=="quit":
                         mixer.Sound.play(menukeys)
                         pygame.quit()
@@ -113,9 +126,9 @@ def main_menu():
         # Main Menu Music
  
         # Main Menu Text
-        screen.blit(title, (screen_width/2 - (title_rect[2]/2), 80))
-        screen.blit(text_start, (screen_width/2 - (start_rect[2]/2), 300))
-        screen.blit(text_quit, (screen_width/2 - (quit_rect[2]/2), 360))
+        screen.blit(title, (width/2 - (title_rect[2]/2), 80))
+        screen.blit(text_start, (width/2 - (start_rect[2]/2), 300))
+        screen.blit(text_quit, (width/2 - (quit_rect[2]/2), 360))
         pygame.display.update()
         clock.tick(FPS)
         pygame.display.set_caption("Snatched - Main Menu")
