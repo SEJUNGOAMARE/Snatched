@@ -12,7 +12,6 @@ pygame.mixer.init()
 pygame.init() 
 
 
-
  
 # Center the Game Application
 os.environ['SDL_VIDEO_CENTERED'] = '1'
@@ -21,11 +20,15 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'
 width=800
 height=600
 screen=pygame.display.set_mode((width, height))
+
+
+
+textbox = pygame.image.load('assets/images/textbox.png')
  
 # Text Renderer
 def text_format(message, textFont, textSize, textColor):
     newFont=pygame.font.Font(textFont, textSize)
-    newText=newFont.render(message, 0, textColor)
+    newText = newFont.render(message, 0, textColor)
  
     return newText
  
@@ -52,7 +55,6 @@ mixer.music.load("assets\sounds\strolling.wav")
 mixer.music.play(-1)
 
 
-
 # Game Framerate
 clock = pygame.time.Clock()
 FPS=60
@@ -60,10 +62,36 @@ FPS=60
 
 
 
+
+
+
 def game():
-    while True:
-        clock.tick(FPS)
-        pygame.display.set_caption("Snatched")
+    global textbox
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+
+        screen.fill(black)
+        screen.blit(textbox, (10,10))
+        pygame.display.update()
+        
+
+
+
+
+def black_screen():
+    global width, height
+    i = 0
+    while i == 0:
+        blacc = pygame.Surface((width,height))
+        blacc.fill((0,0,0))
+        pygame.display.update()
+        pygame.time.delay(2)
+        i+=1
+    game()
 
 
 def fade(): 
@@ -75,7 +103,7 @@ def fade():
         screen.blit(fade, (0,0))
         pygame.display.update()
         pygame.time.delay(6)
-        game()
+    black_screen()
 
 
 # Main Menu
@@ -101,9 +129,7 @@ def main_menu():
                     mixer.Sound.play(menukeys)
                     if selected=="start":
                         fade()
-
                     if selected=="quit":
-                        mixer.Sound.play(menukeys)
                         pygame.quit()
                         quit()
  
@@ -122,8 +148,6 @@ def main_menu():
         title_rect=title.get_rect()
         start_rect=text_start.get_rect()
         quit_rect=text_quit.get_rect()
-
-        # Main Menu Music
  
         # Main Menu Text
         screen.blit(title, (width/2 - (title_rect[2]/2), 80))
@@ -134,20 +158,10 @@ def main_menu():
         pygame.display.set_caption("Snatched - Main Menu")
 
 
-
-
-
 #Initialize the Game
 main_menu()
 pygame.quit()
 quit()
 
 
-
-#CREDITS
-
-# Menu Music - Myuu
-# Keypress Sound - brakence (shadows potions drumkit)
-#
-#
 
